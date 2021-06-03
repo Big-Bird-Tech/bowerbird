@@ -11,12 +11,15 @@
     "fix": "rm -rf node_modules && rm package-lock.json && npm install",
     "prebuild": "rimraf dist",
     "build": "tsc",
+    "postinstall": "npm run build",
+    "precommit": "npm run format && npm run lint",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "lint": "eslint \"{src,apps,libs,test,lib,seeds,migrations}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
-    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand"
+    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+    "get-started": "npm install"
   },
   "dependencies": {
     "knex": "0.95.4",
