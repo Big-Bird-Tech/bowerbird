@@ -32,14 +32,20 @@ export class TEntity {
   createdAt: string
   updatedAt: string
 }
-
-export const Table = (name) => (target: unknown) => {
+type TableOptions = {
+  exclude?: Array<string>
+}
+export const Table = (name, options: TableOptions) => (target: unknown) => {
   target['schema'] = target['schema'] || {}
   target['schema']['tableName'] = name
   target['schema']['id'] = 'id'
   target['schema']['createdAt'] = 'createdAt'
   target['schema']['updatedAt'] = 'updatedAt'
   target['schema']['all'] = '*'
+
+  options?.exclude.forEach((value) => {
+    delete target['schema'][value]
+  })
 }
 
 export const Column = (name: string) => (
