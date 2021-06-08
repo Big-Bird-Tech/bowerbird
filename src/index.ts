@@ -1,6 +1,8 @@
 import { Knex } from 'knex'
 import { v4 } from 'uuid'
 
+export * from './connection'
+
 export const timestamps = (table: Knex.CreateTableBuilder) => {
   table.timestamp('createdAt').notNullable()
   table.timestamp('updatedAt').notNullable()
@@ -13,10 +15,11 @@ export const id = (table: Knex.CreateTableBuilder) => {
 export const uuid = v4
 
 export type Result<T> = T
+
 export type BaseDto<T> = Omit<T, 'id' | 'createdAt' | 'updatedAt'>
 
 export abstract class Entity {
-  public static schema: Record<string, any>
+  public static schema: TEntity | Record<string, any>
 
   constructor(
     public createdAt: Date,
@@ -25,6 +28,7 @@ export abstract class Entity {
   ) {}
 }
 
+
 export class TEntity {
   id: 'id'
   all: '*'
@@ -32,20 +36,14 @@ export class TEntity {
   createdAt: string
   updatedAt: string
 }
-type TableOptions = {
-  exclude?: Array<string>
-}
-export const Table = (name, options: TableOptions) => (target: unknown) => {
+
+export const Table = (name) => (target: unknown) => {
   target['schema'] = target['schema'] || {}
   target['schema']['tableName'] = name
   target['schema']['id'] = 'id'
   target['schema']['createdAt'] = 'createdAt'
   target['schema']['updatedAt'] = 'updatedAt'
   target['schema']['all'] = '*'
-
-  options?.exclude.forEach((value) => {
-    delete target['schema'][value]
-  })
 }
 
 export const Column = (name: string) => (
