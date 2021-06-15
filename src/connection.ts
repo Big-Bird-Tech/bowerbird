@@ -6,12 +6,14 @@ export class Connection {
   constructor(readonly config: Knex.Config) {}
 
   public connect() {
-    this.activeConnection ||= knex(this.config)
+    if (!this.activeConnection) {
+      this.activeConnection = knex(this.config)
+    }
 
     return this
   }
 
-  public get use() {
+  public async use() {
     if (this.activeConnection) {
       return this.activeConnection
     }
