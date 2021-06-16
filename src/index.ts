@@ -54,15 +54,3 @@ export const Column = (name: string) => (
   target['schema'] = target['schema'] || {}
   target['schema'][name] = name
 }
-
-export const TestColumn = function() {
-  console.log('here')
-  return function(object: Object, propertyName: string) {
-    console.log(object, propertyName)
-  }
-}
-
-class A {
-  @TestColumn()
-  public name: string
-}
