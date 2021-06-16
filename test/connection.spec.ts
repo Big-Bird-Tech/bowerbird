@@ -40,15 +40,15 @@ describe('Connection', () => {
       })
     })
 
-    describe('when it is called after the #connect method', () => {
+    describe('when the #connect method is not called', () => {
       beforeEach(async () => {
         connection = new Connection(config)
-        connection.connect()
       })
 
-      it('returns the active connection', async () => {
-        const activeConnection = await connection.use()
-        expect(activeConnection).to.deep.equal(knex(config))
+      it('returns the active connection', () => {
+        return connection.use().catch(error => {
+          expect(error).to.be.ok
+        })
       })
     })
   })
