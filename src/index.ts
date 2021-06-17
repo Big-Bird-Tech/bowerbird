@@ -2,6 +2,7 @@ import { Knex } from 'knex'
 import { v4 } from 'uuid'
 
 export * from './connection'
+export * from './passwords'
 
 export const timestamps = (table: Knex.CreateTableBuilder) => {
   table.timestamp('createdAt').notNullable()
