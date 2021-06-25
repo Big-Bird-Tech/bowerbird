@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt'
+import * as bcrypt from 'bcrypt'
 
 export const hash = async (password: string, saltRounds: number = 10) => {
   return bcrypt.hash(password, saltRounds)
